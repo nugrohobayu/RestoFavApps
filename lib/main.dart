@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/views/dashboard.dart';
+import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/splash_screen.dart';
 
 void main() {
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/dashboard': (context) => const Dashboard(),
+        ListRestaurantView.routeName: (context) => const ListRestaurantView(),
       },
     );
   }
