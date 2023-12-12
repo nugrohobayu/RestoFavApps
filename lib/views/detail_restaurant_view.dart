@@ -90,7 +90,10 @@ class DetailRestaurantView extends StatelessWidget {
           _card(color, 'Description'),
           SizedBox(
             height: mediaQuery.size.height * 0.15,
-            child: Text(listRestaurant.description),
+            child: Text(
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+                listRestaurant.description),
           ),
           _card(color, 'Foods'),
           SingleChildScrollView(
@@ -99,8 +102,8 @@ class DetailRestaurantView extends StatelessWidget {
               children: listRestaurant.menus.foods
                   .map(
                     (e) => SizedBox(
-                      height: 120,
-                      width: 160,
+                      height: mediaQuery.size.height * 0.15,
+                      width: mediaQuery.size.height * 0.2,
                       child: Card(
                         color: color.onPrimary,
                         child: Padding(
@@ -119,6 +122,8 @@ class DetailRestaurantView extends StatelessWidget {
                                 child: Text(
                                   e.name,
                                   textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -142,8 +147,8 @@ class DetailRestaurantView extends StatelessWidget {
               children: listRestaurant.menus.drinks
                   .map(
                     (e) => SizedBox(
-                      height: 120,
-                      width: 160,
+                      height: mediaQuery.size.height * 0.15,
+                      width: mediaQuery.size.height * 0.2,
                       child: Card(
                         color: color.onPrimary,
                         child: Padding(
@@ -162,6 +167,8 @@ class DetailRestaurantView extends StatelessWidget {
                                 child: Text(
                                   e.name,
                                   textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
