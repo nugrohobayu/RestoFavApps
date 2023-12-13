@@ -102,28 +102,27 @@ class DetailRestaurantView extends StatelessWidget {
               children: listRestaurant.menus.foods
                   .map(
                     (e) => SizedBox(
-                      height: mediaQuery.size.height * 0.15,
+                      height: mediaQuery.size.height * 0.16,
                       width: mediaQuery.size.height * 0.2,
                       child: Card(
                         color: color.onPrimary,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               const Icon(
                                 Icons.fastfood,
                                 size: 40,
                                 color: Colors.white,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                              Expanded(
                                 child: Text(
                                   e.name,
                                   textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.visible,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
@@ -147,27 +146,26 @@ class DetailRestaurantView extends StatelessWidget {
               children: listRestaurant.menus.drinks
                   .map(
                     (e) => SizedBox(
-                      height: mediaQuery.size.height * 0.15,
+                      height: mediaQuery.size.height * 0.16,
                       width: mediaQuery.size.height * 0.2,
                       child: Card(
                         color: color.onPrimary,
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               const Icon(
                                 Icons.local_drink,
                                 size: 40,
                                 color: Colors.white,
                               ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
+                              Expanded(
                                 child: Text(
                                   e.name,
                                   textAlign: TextAlign.center,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     fontSize: 14,
