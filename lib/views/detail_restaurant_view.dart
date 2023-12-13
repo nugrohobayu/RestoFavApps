@@ -198,7 +198,7 @@ class DetailRestaurantView extends StatelessWidget {
         body: CustomScrollView(
       slivers: [
         SliverAppBar(
-          pinned: false,
+          pinned: true,
           floating: false,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
@@ -207,8 +207,7 @@ class DetailRestaurantView extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
               image: DecorationImage(
-                image: NetworkImage(listRestaurant
-                    .pictureId), // Gantilah dengan path gambar Anda.
+                image: NetworkImage(listRestaurant.pictureId),
                 fit: BoxFit.cover,
               ),
             ),

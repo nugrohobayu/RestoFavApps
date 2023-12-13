@@ -19,15 +19,17 @@ class ListRestaurantView extends StatelessWidget {
         color: Colors.white,
         padding: const EdgeInsets.symmetric(
           horizontal: 8.0,
-          vertical: 8.0,
         ),
         child: Card(
+          elevation: 3,
+          // color: Colors.transparent,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(right: 16.0),
+                padding: const EdgeInsets.only(
+                    right: 16.0, top: 8.0, bottom: 8.0, left: 8.0),
                 child: Container(
                   width: 120.0,
                   height: 100,

@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PlusJakartaSans',
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFFFF9130),
+            backgroundColor: Color(0xFFFF5B22),
             elevation: 0,
             iconTheme: IconThemeData(
               color: Colors.white,
