@@ -4,12 +4,13 @@
 
 import 'dart:convert';
 
-ListRestaurant listRestaurantFromJson(String str) =>
-    ListRestaurant.fromJson(json.decode(str));
+ListRestaurantModel listRestaurantFromJson(String str) =>
+    ListRestaurantModel.fromJson(json.decode(str));
 
-String listRestaurantToJson(ListRestaurant data) => json.encode(data.toJson());
+String listRestaurantToJson(ListRestaurantModel data) =>
+    json.encode(data.toJson());
 
-class ListRestaurant {
+class ListRestaurantModel {
   String id;
   String name;
   String description;
@@ -18,7 +19,7 @@ class ListRestaurant {
   double rating;
   Menus menus;
 
-  ListRestaurant({
+  ListRestaurantModel({
     required this.id,
     required this.name,
     required this.description,
@@ -28,7 +29,8 @@ class ListRestaurant {
     required this.menus,
   });
 
-  factory ListRestaurant.fromJson(Map<String, dynamic> json) => ListRestaurant(
+  factory ListRestaurantModel.fromJson(Map<String, dynamic> json) =>
+      ListRestaurantModel(
         id: json["id"],
         name: json["name"],
         description: json["description"],

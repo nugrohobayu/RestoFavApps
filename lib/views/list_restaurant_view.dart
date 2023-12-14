@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/models/ListRestaurant.dart';
+import 'package:resto_fav_apps/models/list_restaurant_model.dart';
 import 'package:resto_fav_apps/services/list_restaurant_service.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 
@@ -7,8 +7,8 @@ class ListRestaurantView extends StatelessWidget {
   static const routeName = '/ListRestaurantView';
   const ListRestaurantView({Key? key}) : super(key: key);
 
-  Widget _buildItem(
-      BuildContext context, ListRestaurant listRestaurant, ColorScheme color) {
+  Widget _buildItem(BuildContext context, ListRestaurantModel listRestaurant,
+      ColorScheme color) {
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
@@ -134,7 +134,7 @@ class ListRestaurantView extends StatelessWidget {
           future: DefaultAssetBundle.of(context)
               .loadString('assets/data/local_restaurant.json'),
           builder: (context, AsyncSnapshot<String> snapshot) {
-            final List<ListRestaurant> listRestaurant =
+            final List<ListRestaurantModel> listRestaurant =
                 ListRestaurantService().getLisRestaurant(snapshot.data);
             return ListView.builder(
               itemCount: listRestaurant.length,

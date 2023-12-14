@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:resto_fav_apps/models/ListRestaurant.dart';
+import 'package:resto_fav_apps/models/list_restaurant_model.dart';
 
 class ListRestaurantService {
-  List<ListRestaurant> getLisRestaurant(String? json) {
+  List<ListRestaurantModel> getLisRestaurant(String? json) {
     if (json == null) {
       return [];
     }
     final List parsed = jsonDecode(json);
-    return parsed.map((e) => ListRestaurant.fromJson(e)).toList();
+    return parsed.map((e) => ListRestaurantModel.fromJson(e)).toList();
   }
 }

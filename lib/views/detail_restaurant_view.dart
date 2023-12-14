@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/models/ListRestaurant.dart';
+import 'package:resto_fav_apps/models/list_restaurant_model.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
-  final ListRestaurant listRestaurant;
+  final ListRestaurantModel listRestaurant;
   const DetailRestaurantView({Key? key, required this.listRestaurant})
       : super(key: key);
 
@@ -27,7 +27,7 @@ class DetailRestaurantView extends StatelessWidget {
         ));
   }
 
-  Widget _content(BuildContext context, ListRestaurant listRestaurant) {
+  Widget _content(BuildContext context, ListRestaurantModel listRestaurant) {
     final mediaQuery = MediaQuery.of(context);
     final color = Theme.of(context).colorScheme;
 
