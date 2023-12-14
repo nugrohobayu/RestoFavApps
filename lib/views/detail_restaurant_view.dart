@@ -201,12 +201,15 @@ class DetailRestaurantView extends StatelessWidget {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.white,
           expandedHeight: mediaQuery.size.height * 0.3,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              image: DecorationImage(
-                image: NetworkImage(listRestaurant.pictureId),
-                fit: BoxFit.cover,
+          flexibleSpace: Hero(
+            tag: listRestaurant.pictureId,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                image: DecorationImage(
+                  image: NetworkImage(listRestaurant.pictureId),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

@@ -27,18 +27,22 @@ class ListRestaurantView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    right: 16.0, top: 8.0, bottom: 8.0, left: 8.0),
-                child: Container(
-                  width: 120.0,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image: NetworkImage(listRestaurant.pictureId),
-                        fit: BoxFit.cover,
-                      )),
+              Hero(
+                tag: listRestaurant.pictureId,
+                transitionOnUserGestures: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      right: 16.0, top: 8.0, bottom: 8.0, left: 8.0),
+                  child: Container(
+                    width: 120.0,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: NetworkImage(listRestaurant.pictureId),
+                          fit: BoxFit.cover,
+                        )),
+                  ),
                 ),
               ),
               Column(
