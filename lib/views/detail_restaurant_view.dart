@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/models/list_restaurant_model.dart';
+import 'package:provider/provider.dart';
+import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
-  final ListRestaurantModel listRestaurant;
-  const DetailRestaurantView({Key? key, required this.listRestaurant})
-      : super(key: key);
+  final String id;
+  const DetailRestaurantView({Key? key, required this.id}) : super(key: key);
 
   Widget _card(ColorScheme color, String title) {
     return Container(
@@ -27,7 +27,7 @@ class DetailRestaurantView extends StatelessWidget {
         ));
   }
 
-  Widget _content(BuildContext context, ListRestaurantModel listRestaurant) {
+  Widget _content(BuildContext context, DetailRestaurantViewModel provider) {
     final mediaQuery = MediaQuery.of(context);
     final color = Theme.of(context).colorScheme;
 
@@ -40,7 +40,7 @@ class DetailRestaurantView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            listRestaurant.name,
+            "${provider.detailRestaurant?.name}",
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -55,7 +55,7 @@ class DetailRestaurantView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    listRestaurant.city,
+                    '${provider.detailRestaurant?.city}',
                     style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -77,7 +77,7 @@ class DetailRestaurantView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(
-                    '${listRestaurant.rating}',
+                    '${provider.detailRestaurant?.rating}',
                     style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -88,18 +88,18 @@ class DetailRestaurantView extends StatelessWidget {
             ),
           ),
           _card(color, 'Description'),
-          SizedBox(
-            height: mediaQuery.size.height * 0.15,
+          Expanded(
+            // height: mediaQuery.size.height * 0.15,
             child: Text(
                 maxLines: 5,
                 overflow: TextOverflow.ellipsis,
-                listRestaurant.description),
+                '${provider.detailRestaurant?.description}'),
           ),
           _card(color, 'Foods'),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: listRestaurant.menus.foods
+              children: provider.listFoods
                   .map(
                     (e) => SizedBox(
                       height: mediaQuery.size.height * 0.16,
@@ -143,7 +143,7 @@ class DetailRestaurantView extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: listRestaurant.menus.drinks
+              children: provider.listDrinks
                   .map(
                     (e) => SizedBox(
                       height: mediaQuery.size.height * 0.16,
@@ -192,33 +192,41 @@ class DetailRestaurantView extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
-    return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          floating: false,
-          automaticallyImplyLeading: false,
-          backgroundColor: Colors.white,
-          expandedHeight: mediaQuery.size.height * 0.3,
-          flexibleSpace: Hero(
-            tag: listRestaurant.pictureId,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                  image: NetworkImage(listRestaurant.pictureId),
-                  fit: BoxFit.cover,
+    return ChangeNotifierProvider(
+        create: (context) => DetailRestaurantViewModel(id),
+        builder: (context, _) {
+          return Scaffold(body: Consumer<DetailRestaurantViewModel>(
+              builder: (context, provider, _) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  floating: false,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Colors.white,
+                  expandedHeight: mediaQuery.size.height * 0.3,
+                  flexibleSpace: Hero(
+                    tag:
+                        'https://restaurant-api.dicoding.dev/images/medium/${provider.detailRestaurant?.pictureId}',
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              'https://restaurant-api.dicoding.dev/images/medium/${provider.detailRestaurant?.pictureId}'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        SliverList(
-            delegate: SliverChildListDelegate([
-          _content(context, listRestaurant),
-        ]))
-      ],
-    ));
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  _content(context, provider),
+                ]))
+              ],
+            );
+          }));
+        });
   }
 }

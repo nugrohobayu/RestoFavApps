@@ -16,7 +16,7 @@ class ListRestaurantView extends StatelessWidget {
       onTap: () => Navigator.pushNamed(
         context,
         DetailRestaurantView.routeName,
-        arguments: listRestaurant,
+        arguments: listRestaurant.id,
       ),
       child: Container(
         margin: const EdgeInsets.symmetric(

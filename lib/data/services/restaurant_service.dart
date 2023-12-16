@@ -26,7 +26,7 @@ class RestaurantService {
     Response result = await get(uriUrl);
     if (result.statusCode == 200 || result.statusCode == 201) {
       Map<String, dynamic> jsonData = json.decode(result.body);
-      var detailRestaurant = jsonData['restaurants'];
+      var detailRestaurant = jsonData['restaurant'];
       DetailRestaurantModel res =
           DetailRestaurantModel.fromJson(detailRestaurant);
       return res;
