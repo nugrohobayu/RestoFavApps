@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/models/list_restaurant_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/splash_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -21,15 +21,15 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PlusJakartaSans',
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFFFF5B22),
-            elevation: 0,
-            iconTheme: IconThemeData(
-              color: Colors.white,
-            ),
+            backgroundColor: Color(0xFFFFFFFF),
+            elevation: 1,
+            // iconTheme: IconThemeData(
+            //   color: Colors.white,
+            // ),
             titleTextStyle: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              color: Colors.black87,
             )),
         colorScheme: const ColorScheme.light().copyWith(
           primary: const Color(0xFFFF5B22),
@@ -44,8 +44,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         ListRestaurantView.routeName: (context) => const ListRestaurantView(),
         DetailRestaurantView.routeName: (context) => DetailRestaurantView(
-            listRestaurant: ModalRoute.of(context)?.settings.arguments
-                as ListRestaurantModel),
+            id: ModalRoute.of(context)?.settings.arguments as String),
       },
     );
   }

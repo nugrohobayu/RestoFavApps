@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:resto_fav_apps/models/list_restaurant_model.dart';
-import 'package:resto_fav_apps/services/list_restaurant_service.dart';
+import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/viewmodel/restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
+import 'package:provider/provider.dart';
 
 class ListRestaurantView extends StatelessWidget {
   static const routeName = '/ListRestaurantView';
   const ListRestaurantView({Key? key}) : super(key: key);
 
-  Widget _buildItem(BuildContext context, ListRestaurantModel listRestaurant,
-      ColorScheme color) {
+  Widget _buildItem(
+      BuildContext context, RestaurantModel listRestaurant, ColorScheme color) {
+    String urlPicture =
+        "https://restaurant-api.dicoding.dev/images/medium/${listRestaurant.pictureId}";
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
@@ -16,90 +19,87 @@ class ListRestaurantView extends StatelessWidget {
         arguments: listRestaurant,
       ),
       child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(
-          horizontal: 8.0,
+        margin: const EdgeInsets.symmetric(
+          vertical: 8.0,
+          horizontal: 16.0,
         ),
-        child: Card(
-          elevation: 3,
-          // color: Colors.transparent,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Hero(
-                tag: listRestaurant.pictureId,
-                transitionOnUserGestures: true,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      right: 16.0, top: 8.0, bottom: 8.0, left: 8.0),
-                  child: Container(
-                    width: 120.0,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 0),
+              blurRadius: 8,
+              spreadRadius: 4,
+              color: Colors.grey.withOpacity(.2),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Hero(
+                    tag: urlPicture,
+                    transitionOnUserGestures: true,
+                    child: Container(
+                      decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(listRestaurant.pictureId),
                           fit: BoxFit.cover,
-                        )),
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      listRestaurant.name,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                          image: NetworkImage(urlPicture),
+                        ),
                       ),
                     ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      const Icon(Icons.location_on_outlined, color: Colors.red),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          listRestaurant.city,
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.blueGrey),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
+                ),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        const Icon(
-                          Icons.star,
-                          color: Colors.amberAccent,
+                        Text(
+                          listRestaurant.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14,
+                              color: Colors.black87),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            '${listRestaurant.rating}',
-                            style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blueGrey),
-                          ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.star_rate_rounded,
+                                color: Colors.amberAccent),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
+                              child: Text(
+                                listRestaurant.rating.toString(),
+                                style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.amber),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -110,45 +110,37 @@ class ListRestaurantView extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Resto Fav',
-              style: TextStyle(
-                fontSize: 24,
+    return ChangeNotifierProvider(
+        create: (context) => RestaurantViewModel(),
+        builder: (context, _) {
+          return Consumer<RestaurantViewModel>(builder: (context, provider, _) {
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text(
+                  'Home',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
               ),
-            ),
-            Text(
-              'Recommendation restaurant for you',
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
+              body: Container(
+                color: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Jumlah kolom dalam grid
+                    // crossAxisSpacing: 0, // Spasi antar kolom
+                    mainAxisSpacing: 8.0, // Spasi antar baris
+                  ),
+                  itemCount: provider.listRestaurant.length,
+                  itemBuilder: (context, index) {
+                    return _buildItem(
+                        context, provider.listRestaurant[index], color);
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
-      ),
-      body: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: FutureBuilder<String>(
-          future: DefaultAssetBundle.of(context)
-              .loadString('assets/data/local_restaurant.json'),
-          builder: (context, AsyncSnapshot<String> snapshot) {
-            final List<ListRestaurantModel> listRestaurant =
-                ListRestaurantService().getLisRestaurant(snapshot.data);
-            return ListView.builder(
-              itemCount: listRestaurant.length,
-              itemBuilder: (context, index) {
-                return _buildItem(context, listRestaurant[index], color);
-              },
             );
-          },
-        ),
-      ),
-    );
+          });
+        });
   }
 }

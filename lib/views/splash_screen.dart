@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resto_fav_apps/assets/assets.dart';
+import 'package:resto_fav_apps/data/services/restaurant_service.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -18,10 +19,9 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _initialize() async {
-    await Future.delayed(const Duration(seconds: 4)).then(
-      (value) =>
-          Navigator.pushReplacementNamed(context, ListRestaurantView.routeName),
-    );
+    await Future.delayed(const Duration(seconds: 4)).then((value) async {
+      Navigator.pushReplacementNamed(context, ListRestaurantView.routeName);
+    });
   }
 
   @override
