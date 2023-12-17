@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:resto_fav_apps/data/models/detail_restaurant_model.dart';
+import 'package:resto_fav_apps/data/models/request_review_model.dart';
 import 'package:resto_fav_apps/data/services/restaurant_service.dart';
 
 class DetailRestaurantViewModel extends ChangeNotifier {
@@ -11,15 +12,30 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   DetailRestaurantModel? detailRestaurant;
   List<Category> listFoods = [];
   List<Category> listDrinks = [];
+  List<CustomerReview> listReview = [];
 
-  getDetailRestaurant(String idRestaurant) async {
+  Future<void> getDetailRestaurant(String idRestaurant) async {
     final result = await service.getDetailRestaurant(idRestaurant);
     if (result != null) {
       detailRestaurant = result;
       listFoods = result.menus.foods;
       listDrinks = result.menus.drinks;
+      listReview = result.customerReviews;
     }
 
     notifyListeners();
+  }
+
+  Future<bool> postReview(String idRestaurant) async {
+    final payload = RequestReviewModel(
+      id: '',
+      name: 'name',
+      review: 'review',
+    );
+    final result = await service.postReview(payload);
+    if (result != null) {
+      return true;
+    }
+    return false;
   }
 }
