@@ -9,6 +9,9 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   }
 
   final service = RestaurantService();
+  final TextEditingController ctrlName = TextEditingController();
+  final TextEditingController ctrlReview = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DetailRestaurantModel? detailRestaurant;
   List<Category> listFoods = [];
   List<Category> listDrinks = [];
@@ -27,12 +30,15 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   }
 
   Future<bool> postReview(String idRestaurant) async {
+    final id = idRestaurant;
     final payload = RequestReviewModel(
-      id: '',
-      name: 'name',
-      review: 'review',
+      id: id,
+      name: ctrlName.value.text,
+      review: ctrlReview.value.text,
     );
+    print('${payload.toJson()} lod');
     final result = await service.postReview(payload);
+    print("$result ress");
     if (result != null) {
       return true;
     }

@@ -40,7 +40,6 @@ class RestaurantService {
     Uri uriUrl = Uri.parse("$url/review");
     Response result = await post(
       uriUrl,
-      headers: {"Content-Type": "application/json"},
       body: payload.toJson(),
     );
     if (result.statusCode == 200 || result.statusCode == 201) {

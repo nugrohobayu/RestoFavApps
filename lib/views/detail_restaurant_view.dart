@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
+import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
@@ -14,18 +15,117 @@ class DetailRestaurantView extends StatelessWidget {
     return showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return SizedBox(
-          height: mediaQuery.size.height * 0.6,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Text('Modal BottomSheet'),
-              ElevatedButton(
-                child: const Text('Close BottomSheet'),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
+        return Container(
+          height: mediaQuery.size.height * 0.8,
+          padding: const EdgeInsets.only(
+            top: 8,
+            left: 16,
+            right: 16,
+          ),
+          child: Form(
+            key: provider.formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [Icon(Icons.close)],
+                  ),
+                ),
+                const Text('Name'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: TextFormField(
+                    controller: provider.ctrlName,
+                    maxLines: 1,
+                    decoration: const InputDecoration(
+                        isDense: true,
+                        filled: true,
+                        hintText: 'Enter your name',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        )),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'column cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const Text('Review'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: TextFormField(
+                    controller: provider.ctrlReview,
+                    maxLines: 4,
+                    decoration: const InputDecoration(
+                        isDense: true,
+                        filled: true,
+                        hintText: 'Enter your review',
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(12)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                          ),
+                        )),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'column cannot be empty';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                Center(
+                  child: SizedBox(
+                    height: mediaQuery.size.height * 0.08,
+                    width: mediaQuery.size.width,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepOrange,
+                      ),
+                      onPressed: () {
+                        if (provider.formKey.currentState!.validate()) {
+                          provider.postReview(id).then((value) {
+                            Navigator.pop(context);
+                            Navigator.pushNamed(
+                                context, ListRestaurantView.routeName);
+                          });
+                        }
+                      },
+                      child: const Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
