@@ -36,9 +36,7 @@ class DetailRestaurantViewModel extends ChangeNotifier {
       name: ctrlName.value.text,
       review: ctrlReview.value.text,
     );
-    print('${payload.toJson()} lod');
     final result = await service.postReview(payload);
-    print("$result ress");
     if (result != null) {
       return true;
     }
