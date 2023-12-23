@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resto_fav_apps/assets/assets.dart';
+import 'package:resto_fav_apps/components/warning_message.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
@@ -114,36 +116,65 @@ class ListRestaurantView extends StatelessWidget {
         create: (context) => RestaurantViewModel(),
         builder: (context, _) {
           return Consumer<RestaurantViewModel>(builder: (context, provider, _) {
-            if (provider.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else {
-              return Scaffold(
-                appBar: AppBar(
-                  title: const Text(
-                    'Home',
-                    style: TextStyle(
-                      fontSize: 18,
+            switch (provider.resultData) {
+              case ResultData.hasData:
+                return Scaffold(
+                  appBar: AppBar(
+                    title: const Text(
+                      'Home',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    actions: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: GestureDetector(
+                          child: const Icon(Icons.search),
+                          onTap: () {
+                            // showSearch(context: context, delegate: CustomSe)
+                          },
+                        ),
+                      )
+                    ],
+                  ),
+                  body: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, // Jumlah kolom dalam grid
+                        // crossAxisSpacing: 0, // Spasi antar kolom
+                        mainAxisSpacing: 8.0, // Spasi antar baris
+                      ),
+                      itemCount: provider.listRestaurant.length,
+                      itemBuilder: (context, index) {
+                        return _buildItem(
+                            context, provider.listRestaurant[index], color);
+                      },
                     ),
                   ),
-                ),
-                body: Container(
-                  color: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: GridView.builder(
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Jumlah kolom dalam grid
-                      // crossAxisSpacing: 0, // Spasi antar kolom
-                      mainAxisSpacing: 8.0, // Spasi antar baris
-                    ),
-                    itemCount: provider.listRestaurant.length,
-                    itemBuilder: (context, index) {
-                      return _buildItem(
-                          context, provider.listRestaurant[index], color);
-                    },
+                );
+              case ResultData.loading:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case ResultData.noData:
+                return const WarningMessage(
+                  message: "No Data",
+                  image: Assets.icNoData,
+                );
+              case ResultData.error:
+                return const Center(
+                  child: WarningMessage(
+                    message: 'Error Connection',
+                    image: Assets.icErrorConnection,
                   ),
-                ),
-              );
+                );
+
+              default:
+                return const SizedBox();
             }
           });
         });
