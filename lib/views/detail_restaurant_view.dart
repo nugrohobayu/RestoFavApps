@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
-  final String id;
-  const DetailRestaurantView({Key? key, required this.id}) : super(key: key);
+  final RestaurantModel restaurantModel;
+  const DetailRestaurantView({Key? key, required this.restaurantModel})
+      : super(key: key);
 
   Future<void> _showDialog(
       BuildContext context, DetailRestaurantViewModel provider) {
@@ -106,7 +108,7 @@ class DetailRestaurantView extends StatelessWidget {
                       ),
                       onPressed: () {
                         if (provider.formKey.currentState!.validate()) {
-                          provider.postReview(id).then((value) {
+                          provider.postReview(restaurantModel.id).then((value) {
                             Navigator.pop(context);
                             Navigator.pushNamed(
                                 context, ListRestaurantView.routeName);
@@ -391,12 +393,12 @@ class DetailRestaurantView extends StatelessWidget {
     final color = Theme.of(context).colorScheme;
 
     return ChangeNotifierProvider(
-        create: (context) => DetailRestaurantViewModel(id),
+        create: (context) => DetailRestaurantViewModel(restaurantModel.id),
         builder: (context, _) {
           return Consumer<DetailRestaurantViewModel>(
               builder: (context, provider, _) {
             String urlPicture =
-                'https://restaurant-api.dicoding.dev/images/medium/${provider.detailRestaurant?.pictureId}';
+                'https://restaurant-api.dicoding.dev/images/medium/${restaurantModel.pictureId}';
             return Scaffold(
               body: CustomScrollView(
                 slivers: [

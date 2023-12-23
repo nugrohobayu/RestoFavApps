@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/splash_screen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         ListRestaurantView.routeName: (context) => const ListRestaurantView(),
         DetailRestaurantView.routeName: (context) => DetailRestaurantView(
-            id: ModalRoute.of(context)?.settings.arguments as String),
+            restaurantModel: ModalRoute.of(context)?.settings.arguments as RestaurantModel),
       },
     );
   }
