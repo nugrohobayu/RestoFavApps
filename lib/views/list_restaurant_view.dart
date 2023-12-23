@@ -114,32 +114,37 @@ class ListRestaurantView extends StatelessWidget {
         create: (context) => RestaurantViewModel(),
         builder: (context, _) {
           return Consumer<RestaurantViewModel>(builder: (context, provider, _) {
-            return Scaffold(
-              appBar: AppBar(
-                title: const Text(
-                  'Home',
-                  style: TextStyle(
-                    fontSize: 18,
+            if (provider.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text(
+                    'Home',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
-              ),
-              body: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, // Jumlah kolom dalam grid
-                    // crossAxisSpacing: 0, // Spasi antar kolom
-                    mainAxisSpacing: 8.0, // Spasi antar baris
+                body: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Jumlah kolom dalam grid
+                      // crossAxisSpacing: 0, // Spasi antar kolom
+                      mainAxisSpacing: 8.0, // Spasi antar baris
+                    ),
+                    itemCount: provider.listRestaurant.length,
+                    itemBuilder: (context, index) {
+                      return _buildItem(
+                          context, provider.listRestaurant[index], color);
+                    },
                   ),
-                  itemCount: provider.listRestaurant.length,
-                  itemBuilder: (context, index) {
-                    return _buildItem(
-                        context, provider.listRestaurant[index], color);
-                  },
                 ),
-              ),
-            );
+              );
+            }
           });
         });
   }

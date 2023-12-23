@@ -399,69 +399,75 @@ class DetailRestaurantView extends StatelessWidget {
               builder: (context, provider, _) {
             String urlPicture =
                 'https://restaurant-api.dicoding.dev/images/medium/${restaurantModel.pictureId}';
-            return Scaffold(
-              body: CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    pinned: true,
-                    floating: false,
-                    automaticallyImplyLeading: false,
-                    backgroundColor: Colors.white,
-                    expandedHeight: mediaQuery.size.height * 0.3,
-                    flexibleSpace: Hero(
-                      tag: urlPicture,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                          image: DecorationImage(
-                            image: NetworkImage(urlPicture),
-                            fit: BoxFit.cover,
+            if (provider.isLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Scaffold(
+                body: CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      pinned: true,
+                      floating: false,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Colors.white,
+                      expandedHeight: mediaQuery.size.height * 0.3,
+                      flexibleSpace: Hero(
+                        tag: urlPicture,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                            image: DecorationImage(
+                              image: NetworkImage(urlPicture),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  SliverList(
-                      delegate: SliverChildListDelegate([
-                    _content(context, provider),
-                  ]))
-                ],
-              ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerDocked,
-              floatingActionButton: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 0),
-                      blurRadius: 5,
-                      spreadRadius: 1,
-                      color: Colors.grey.withOpacity(.15),
-                    ),
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                      _content(context, provider),
+                    ]))
                   ],
                 ),
-                padding: const EdgeInsets.all(16.0),
-                width: mediaQuery.size.width,
-                height: mediaQuery.size.height * 0.13,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: color.primary,
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerDocked,
+                floatingActionButton: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: const Offset(0, 0),
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                        color: Colors.grey.withOpacity(.15),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    _showDialog(context, provider);
-                  },
-                  child: const Text(
-                    'Review',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.white,
+                  padding: const EdgeInsets.all(16.0),
+                  width: mediaQuery.size.width,
+                  height: mediaQuery.size.height * 0.13,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: color.primary,
+                    ),
+                    onPressed: () {
+                      _showDialog(context, provider);
+                    },
+                    child: const Text(
+                      'Review',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           });
         });
   }

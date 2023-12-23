@@ -8,11 +8,13 @@ class RestaurantViewModel extends ChangeNotifier {
   }
   List<RestaurantModel> listRestaurant = [];
   final service = RestaurantService();
+  bool isLoading = true;
 
   getRestaurant() async {
     final result = await service.getList();
     if (result != null) {
       listRestaurant = result;
+      isLoading = false;
     }
     notifyListeners();
   }

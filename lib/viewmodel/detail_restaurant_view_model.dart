@@ -16,6 +16,7 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   List<Category> listFoods = [];
   List<Category> listDrinks = [];
   List<CustomerReview> listReview = [];
+  bool isLoading = true;
 
   Future<void> getDetailRestaurant(String idRestaurant) async {
     final result = await service.getDetailRestaurant(idRestaurant);
@@ -24,6 +25,7 @@ class DetailRestaurantViewModel extends ChangeNotifier {
       listFoods = result.menus.foods;
       listDrinks = result.menus.drinks;
       listReview = result.customerReviews;
+      isLoading = false;
     }
 
     notifyListeners();
