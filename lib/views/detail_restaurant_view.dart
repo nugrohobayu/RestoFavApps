@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:resto_fav_apps/assets/assets.dart';
+import 'package:resto_fav_apps/components/warning_message.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
@@ -214,6 +216,15 @@ class DetailRestaurantView extends StatelessWidget {
               ],
             ),
           ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: provider.listCategory.map((e) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Text("#${e.name}"),
+              );
+            }).toList(),
+          ),
           _card(color, 'Description'),
           SizedBox(
             height: mediaQuery.size.height * 0.15,
@@ -399,74 +410,91 @@ class DetailRestaurantView extends StatelessWidget {
               builder: (context, provider, _) {
             String urlPicture =
                 'https://restaurant-api.dicoding.dev/images/medium/${restaurantModel.pictureId}';
-            if (provider.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return Scaffold(
-                body: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      floating: false,
-                      automaticallyImplyLeading: false,
-                      backgroundColor: Colors.white,
-                      expandedHeight: mediaQuery.size.height * 0.3,
-                      flexibleSpace: Hero(
-                        tag: urlPicture,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                            image: DecorationImage(
-                              image: NetworkImage(urlPicture),
-                              fit: BoxFit.cover,
+            switch (provider.resultData) {
+              case ResultData.hasData:
+                return Scaffold(
+                  body: CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        pinned: true,
+                        floating: false,
+                        automaticallyImplyLeading: false,
+                        backgroundColor: Colors.white,
+                        expandedHeight: mediaQuery.size.height * 0.3,
+                        flexibleSpace: Hero(
+                          tag: urlPicture,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              image: DecorationImage(
+                                image: NetworkImage(urlPicture),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SliverList(
-                        delegate: SliverChildListDelegate([
-                      _content(context, provider),
-                    ]))
-                  ],
-                ),
-                floatingActionButtonLocation:
-                    FloatingActionButtonLocation.centerDocked,
-                floatingActionButton: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        offset: const Offset(0, 0),
-                        blurRadius: 5,
-                        spreadRadius: 1,
-                        color: Colors.grey.withOpacity(.15),
-                      ),
+                      SliverList(
+                          delegate: SliverChildListDelegate([
+                        _content(context, provider),
+                      ]))
                     ],
                   ),
-                  padding: const EdgeInsets.all(16.0),
-                  width: mediaQuery.size.width,
-                  height: mediaQuery.size.height * 0.13,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: color.primary,
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.centerDocked,
+                  floatingActionButton: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          offset: const Offset(0, 0),
+                          blurRadius: 5,
+                          spreadRadius: 1,
+                          color: Colors.grey.withOpacity(.15),
+                        ),
+                      ],
                     ),
-                    onPressed: () {
-                      _showDialog(context, provider);
-                    },
-                    child: const Text(
-                      'Review',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.white,
+                    padding: const EdgeInsets.all(16.0),
+                    width: mediaQuery.size.width,
+                    height: mediaQuery.size.height * 0.13,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: color.primary,
+                      ),
+                      onPressed: () {
+                        _showDialog(context, provider);
+                      },
+                      child: const Text(
+                        'Review',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              );
+                );
+
+              case ResultData.loading:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              case ResultData.noData:
+                return const WarningMessage(
+                  message: "No Data",
+                  image: Assets.icNoData,
+                );
+              case ResultData.error:
+                return const Center(
+                  child: WarningMessage(
+                    message: 'Error Connection',
+                    image: Assets.icErrorConnection,
+                  ),
+                );
+
+              default:
+                return const SizedBox();
             }
           });
         });
