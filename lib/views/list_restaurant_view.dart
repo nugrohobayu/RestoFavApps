@@ -120,11 +120,14 @@ class ListRestaurantView extends StatelessWidget {
               case ResultData.hasData:
                 return Scaffold(
                   appBar: AppBar(
-                    title: const Text(
-                      'Home',
+                    automaticallyImplyLeading: false,
+                    centerTitle: true,
+                    title: Text(
+                      'RestoFav',
                       style: TextStyle(
-                        fontSize: 18,
-                      ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: color.primary),
                     ),
                     actions: [
                       Padding(
@@ -144,9 +147,8 @@ class ListRestaurantView extends StatelessWidget {
                     child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Jumlah kolom dalam grid
-                        // crossAxisSpacing: 0, // Spasi antar kolom
-                        mainAxisSpacing: 8.0, // Spasi antar baris
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 8.0,
                       ),
                       itemCount: provider.listRestaurant.length,
                       itemBuilder: (context, index) {
@@ -166,10 +168,12 @@ class ListRestaurantView extends StatelessWidget {
                   image: Assets.icNoData,
                 );
               case ResultData.error:
-                return const Center(
+                return Center(
                   child: WarningMessage(
                     message: 'Error Connection',
                     image: Assets.icErrorConnection,
+                    isButtonVisible: true,
+                    onPressed: () => provider.getRestaurant(),
                   ),
                 );
 
