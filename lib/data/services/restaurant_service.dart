@@ -46,4 +46,18 @@ class RestaurantService {
     }
     return null;
   }
+
+  Future<List<RestaurantModel>?> searchRestaurant(String query) async {
+    Uri uriUrl = Uri.parse("$url/search?q=$query");
+    Response result = await get(uriUrl);
+    if (result.statusCode == 200 || result.statusCode == 201) {
+      Map<String, dynamic> jsonData = json.decode(result.body);
+      List<dynamic> responseListRestaurant = jsonData['restaurants'];
+      List<RestaurantModel> res = responseListRestaurant
+          .map((e) => RestaurantModel.fromJson(e))
+          .toList();
+      return res;
+    }
+    return null;
+  }
 }

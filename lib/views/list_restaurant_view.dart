@@ -23,7 +23,7 @@ class ListRestaurantView extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 8.0,
-          horizontal: 16.0,
+          horizontal: 8.0,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
@@ -121,7 +121,6 @@ class ListRestaurantView extends StatelessWidget {
                 return Scaffold(
                   appBar: AppBar(
                     automaticallyImplyLeading: false,
-                    centerTitle: true,
                     title: Text(
                       'RestoFav',
                       style: TextStyle(
@@ -129,32 +128,70 @@ class ListRestaurantView extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           color: color.primary),
                     ),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: GestureDetector(
-                          child: const Icon(Icons.search),
-                          onTap: () {
-                            // showSearch(context: context, delegate: CustomSe)
-                          },
-                        ),
-                      )
-                    ],
                   ),
                   body: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 8.0,
-                      ),
-                      itemCount: provider.listRestaurant.length,
-                      itemBuilder: (context, index) {
-                        return _buildItem(
-                            context, provider.listRestaurant[index], color);
-                      },
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                      horizontal: 16.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextFormField(
+                            controller: provider.ctrlQuery,
+                            maxLines: 1,
+                            onChanged: (value) {
+                              provider.searchRestaurant(value);
+                            },
+                            decoration: InputDecoration(
+                                suffixIcon:
+                                    provider.ctrlQuery.value.text.isEmpty
+                                        ? const Icon(Icons.search)
+                                        : IconButton(
+                                            onPressed: () {
+                                              provider.ctrlQuery.clear();
+                                              provider.getRestaurant();
+                                            },
+                                            icon: const Icon(Icons.close)),
+                                isDense: true,
+                                filled: true,
+                                hintText: 'Search your favorite restaurant',
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(26)),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(26)),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                )),
+                          ),
+                        ),
+                        Expanded(
+                          child: GridView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 8.0,
+                            ),
+                            itemCount: provider.listRestaurant.length,
+                            itemBuilder: (context, index) {
+                              return _buildItem(context,
+                                  provider.listRestaurant[index], color);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
@@ -163,9 +200,11 @@ class ListRestaurantView extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               case ResultData.noData:
-                return const WarningMessage(
+                return WarningMessage(
                   message: "No Data",
                   image: Assets.icNoData,
+                  isButtonVisible: true,
+                  onPressed: () => provider.getRestaurant(),
                 );
               case ResultData.error:
                 return Center(
