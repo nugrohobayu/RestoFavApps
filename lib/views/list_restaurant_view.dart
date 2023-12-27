@@ -134,7 +134,10 @@ class ListRestaurantView extends StatelessWidget {
           message: "No Data",
           image: Assets.icNoData,
           isButtonVisible: true,
-          onPressed: () => provider.getRestaurant(),
+          onPressed: () {
+            provider.getRestaurant();
+            provider.ctrlQuery.clear();
+          },
         );
       case ResultData.error:
         return Center(
@@ -160,12 +163,13 @@ class ListRestaurantView extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
-              title: Text(
+              backgroundColor: color.onPrimary,
+              title: const Text(
                 'RestoFav',
                 style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: color.primary),
+                    color: Colors.white),
               ),
             ),
             body: Container(
@@ -188,13 +192,21 @@ class ListRestaurantView extends StatelessWidget {
                         },
                         decoration: InputDecoration(
                             suffixIcon: provider.ctrlQuery.value.text.isEmpty
-                                ? const Icon(Icons.search)
+                                ? const Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                    size: 28,
+                                  )
                                 : IconButton(
                                     onPressed: () {
                                       provider.ctrlQuery.clear();
                                       provider.getRestaurant();
                                     },
-                                    icon: const Icon(Icons.close)),
+                                    icon: const Icon(
+                                      Icons.close,
+                                      color: Colors.black54,
+                                      size: 24,
+                                    )),
                             isDense: true,
                             filled: true,
                             hintText: 'Search your favorite restaurant',
@@ -216,22 +228,6 @@ class ListRestaurantView extends StatelessWidget {
                       ),
                     ),
                     Expanded(child: _buildItem(context, provider, color))
-                    // Expanded(
-                    //   child: GridView.builder(
-                    //     scrollDirection: Axis.vertical,
-                    //     shrinkWrap: true,
-                    //     gridDelegate:
-                    //     const SliverGridDelegateWithFixedCrossAxisCount(
-                    //       crossAxisCount: 2,
-                    //       mainAxisSpacing: 8.0,
-                    //     ),
-                    //     itemCount: provider.listRestaurant.length,
-                    //     itemBuilder: (context, index) {
-                    //       return _buildItem(context,
-                    //           provider.listRestaurant[index], color);
-                    //     },
-                    //   ),
-                    // ),
                   ],
                 );
               }),

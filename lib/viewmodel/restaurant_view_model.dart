@@ -21,7 +21,7 @@ class RestaurantViewModel extends ChangeNotifier {
   TextEditingController ctrlQuery = TextEditingController();
   String? query;
 
-  Future getRestaurant() async {
+  Future<void> getRestaurant() async {
     try {
       resultData = ResultData.loading;
       notifyListeners();
@@ -40,12 +40,12 @@ class RestaurantViewModel extends ChangeNotifier {
     }
   }
 
-  Future searchRestaurant(value) async {
+  Future<void> searchRestaurant(String value) async {
     try {
       resultData = ResultData.loading;
       notifyListeners();
       final result = await service.searchRestaurant(value);
-      if (result != null) {
+      if (result.isNotEmpty) {
         resultData = ResultData.hasData;
         listRestaurant = result;
         notifyListeners();

@@ -47,7 +47,7 @@ class RestaurantService {
     return null;
   }
 
-  Future<List<RestaurantModel>?> searchRestaurant(String query) async {
+  Future<List<RestaurantModel>> searchRestaurant(String query) async {
     Uri uriUrl = Uri.parse("$url/search?q=$query");
     Response result = await get(uriUrl);
     if (result.statusCode == 200 || result.statusCode == 201) {
@@ -58,6 +58,6 @@ class RestaurantService {
           .toList();
       return res;
     }
-    return null;
+    return [];
   }
 }
