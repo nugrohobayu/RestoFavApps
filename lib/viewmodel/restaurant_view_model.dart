@@ -42,6 +42,8 @@ class RestaurantViewModel extends ChangeNotifier {
 
   Future searchRestaurant(value) async {
     try {
+      resultData = ResultData.loading;
+      notifyListeners();
       final result = await service.searchRestaurant(value);
       if (result != null) {
         resultData = ResultData.hasData;
