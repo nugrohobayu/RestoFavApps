@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:resto_fav_apps/assets/assets.dart';
-import 'package:resto_fav_apps/data/services/restaurant_service.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class SplashScreen extends StatefulWidget {

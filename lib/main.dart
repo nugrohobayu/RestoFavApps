@@ -24,9 +24,6 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
             backgroundColor: Color(0xFFFFFFFF),
             elevation: 1,
-            // iconTheme: IconThemeData(
-            //   color: Colors.white,
-            // ),
             titleTextStyle: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.normal,
@@ -45,7 +42,8 @@ class MyApp extends StatelessWidget {
         '/': (context) => const SplashScreen(),
         ListRestaurantView.routeName: (context) => const ListRestaurantView(),
         DetailRestaurantView.routeName: (context) => DetailRestaurantView(
-            restaurantModel: ModalRoute.of(context)?.settings.arguments as RestaurantModel),
+            restaurantModel:
+                ModalRoute.of(context)?.settings.arguments as RestaurantModel),
       },
     );
   }
