@@ -239,13 +239,22 @@ class DetailRestaurantView extends StatelessWidget {
             child: Row(
               children: provider.listReview
                   .map(
-                    (e) => SizedBox(
+                    (e) => Container(
+                      padding: const EdgeInsets.only(right: 4.0),
                       height: mediaQuery.size.height * 0.2,
                       width: mediaQuery.size.height * 0.3,
                       child: Card(
-                        color: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: color.onBackground,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(16)),
+                        ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -423,14 +432,26 @@ class DetailRestaurantView extends StatelessWidget {
                         expandedHeight: mediaQuery.size.height * 0.3,
                         flexibleSpace: Hero(
                           tag: urlPicture,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              image: DecorationImage(
-                                image: NetworkImage(urlPicture),
-                                fit: BoxFit.cover,
+                          child: Stack(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  image: DecorationImage(
+                                    image: NetworkImage(urlPicture),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Container(
+                                  alignment: Alignment.bottomLeft,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Icon(
+                                    Icons.favorite_border_outlined,
+                                    color: Colors.red,
+                                  )),
+                            ],
                           ),
                         ),
                       ),
@@ -450,13 +471,13 @@ class DetailRestaurantView extends StatelessWidget {
                           offset: const Offset(0, 0),
                           blurRadius: 5,
                           spreadRadius: 1,
-                          color: Colors.grey.withOpacity(.15),
+                          color: Colors.grey.withOpacity(.3),
                         ),
                       ],
                     ),
                     padding: const EdgeInsets.all(16.0),
                     width: mediaQuery.size.width,
-                    height: mediaQuery.size.height * 0.13,
+                    height: mediaQuery.size.height * 0.12,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: color.primary,

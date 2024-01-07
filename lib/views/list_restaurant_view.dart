@@ -5,6 +5,7 @@ import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:provider/provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ListRestaurantView extends StatelessWidget {
   static const routeName = '/ListRestaurantView';
@@ -14,11 +15,16 @@ class ListRestaurantView extends StatelessWidget {
     String urlPicture =
         "https://restaurant-api.dicoding.dev/images/medium/${listRestaurant.pictureId}";
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(
-        context,
-        DetailRestaurantView.routeName,
-        arguments: listRestaurant,
-      ),
+      onTap: () {
+        PersistentNavBarNavigator.pushDynamicScreen(
+          context,
+          screen: MaterialPageRoute(
+            builder: (context) =>
+                DetailRestaurantView(restaurantModel: listRestaurant),
+          ),
+          withNavBar: false,
+        );
+      },
       child: Container(
         margin: const EdgeInsets.symmetric(
           vertical: 8.0,
@@ -164,6 +170,7 @@ class ListRestaurantView extends StatelessWidget {
             appBar: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: color.onPrimary,
+              centerTitle: true,
               title: const Text(
                 'RestoFav',
                 style: TextStyle(
@@ -174,7 +181,7 @@ class ListRestaurantView extends StatelessWidget {
             ),
             body: Container(
               padding: const EdgeInsets.symmetric(
-                vertical: 16.0,
+                vertical: 8.0,
                 horizontal: 16.0,
               ),
               child: Consumer<RestaurantViewModel>(
@@ -182,8 +189,9 @@ class ListRestaurantView extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
+                    Container(
                       padding: const EdgeInsets.all(8.0),
+                      height: 65,
                       child: TextFormField(
                         controller: provider.ctrlQuery,
                         maxLines: 1,
@@ -195,7 +203,7 @@ class ListRestaurantView extends StatelessWidget {
                                 ? const Icon(
                                     Icons.search,
                                     color: Colors.grey,
-                                    size: 28,
+                                    size: 26,
                                   )
                                 : IconButton(
                                     onPressed: () {
@@ -215,7 +223,7 @@ class ListRestaurantView extends StatelessWidget {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(26)),
                               borderSide: BorderSide(
-                                color: Colors.grey,
+                                color: Colors.black26,
                               ),
                             ),
                             focusedBorder: const OutlineInputBorder(
