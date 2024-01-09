@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:resto_fav_apps/views/list_favorite_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
+import 'package:resto_fav_apps/views/setting_view.dart';
 
 class BottomNavigation extends StatefulWidget {
   static const routeName = "/BottomNavigation";
@@ -15,9 +17,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   List<Widget> _buildScreens() {
     return [
-      ListRestaurantView(),
-      Scaffold(),
-      Scaffold(),
+      const ListRestaurantView(),
+      const ListFavoriteView(),
+      const SettingView(),
     ];
   }
 
