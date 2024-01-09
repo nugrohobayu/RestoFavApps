@@ -168,15 +168,8 @@ class ListRestaurantView extends StatelessWidget {
         builder: (context, _) {
           return Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: color.onPrimary,
-              centerTitle: true,
               title: const Text(
-                'RestoFav',
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                'Home',
               ),
             ),
             body: Container(

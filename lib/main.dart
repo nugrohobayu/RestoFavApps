@@ -25,12 +25,12 @@ class MyApp extends StatelessWidget {
         fontFamily: 'PlusJakartaSans',
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
-            backgroundColor: Color(0xFFFFFFFF),
+            backgroundColor: Color(0xFFFF9130),
             elevation: 1,
             titleTextStyle: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.normal,
-              color: Colors.black87,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
             )),
         colorScheme: const ColorScheme.light().copyWith(
           primary: const Color(0xFFFF5B22),
