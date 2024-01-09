@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:resto_fav_apps/assets/assets.dart';
 import 'package:resto_fav_apps/components/warning_message.dart';
+import 'package:resto_fav_apps/data/helpers/database_helper.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/viewmodel/favorite_view_model.dart';
 import 'package:resto_fav_apps/viewmodel/restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:provider/provider.dart';
@@ -69,40 +71,55 @@ class ListRestaurantView extends StatelessWidget {
                   flex: 2,
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          listRestaurant.name,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 14,
-                              color: Colors.black87),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            const Icon(Icons.star_rate_rounded,
-                                color: Colors.amberAccent),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 4.0),
-                              child: Text(
-                                listRestaurant.rating.toString(),
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.amber),
+                    child: Consumer<FavoriteViewModel>(
+                        builder: (context, provider, child) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            listRestaurant.name,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                color: Colors.black87),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Icon(Icons.star_rate_rounded,
+                                  color: Colors.amberAccent),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
+                                child: Text(
+                                  listRestaurant.rating.toString(),
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.amber),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Expanded(
+                            child: IconButton(
+                              onPressed: () {
+                                provider.addFavorite(listRestaurant);
+                                print('object');
+                              },
+                              icon: Icon(
+                                Icons.favorite_border_outlined,
+                                color: Colors.red,
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      );
+                    }),
                   ),
                 ),
               ],
@@ -123,6 +140,7 @@ class ListRestaurantView extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               mainAxisSpacing: 8.0,
+              mainAxisExtent: 250,
             ),
             itemCount: provider.listRestaurant.length,
             itemBuilder: (context, index) {
@@ -163,8 +181,16 @@ class ListRestaurantView extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
 
-    return ChangeNotifierProvider(
-        create: (context) => RestaurantViewModel(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (context) => RestaurantViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) =>
+                FavoriteViewModel(databaseHelper: DatabaseHelper()),
+          )
+        ],
         builder: (context, _) {
           return Scaffold(
             appBar: AppBar(
