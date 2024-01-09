@@ -9,6 +9,8 @@ import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:provider/provider.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../data/helpers/result_data.dart';
+
 class ListRestaurantView extends StatelessWidget {
   static const routeName = '/ListRestaurantView';
   const ListRestaurantView({Key? key}) : super(key: key);

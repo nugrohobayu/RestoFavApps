@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:resto_fav_apps/data/helpers/result_data.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/data/services/restaurant_service.dart';
-
-enum ResultData {
-  loading,
-  noData,
-  hasData,
-  error,
-}
 
 class RestaurantViewModel extends ChangeNotifier {
   RestaurantViewModel() {

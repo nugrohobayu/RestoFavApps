@@ -1,31 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:resto_fav_apps/data/helpers/database_helper.dart';
+import 'package:resto_fav_apps/data/helpers/result_data.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
-
-enum ResultState {
-  loading,
-  noData,
-  hasData,
-  error,
-}
 
 class FavoriteViewModel extends ChangeNotifier {
   final DatabaseHelper databaseHelper;
   FavoriteViewModel({required this.databaseHelper}) {
     _getRestaurant();
   }
-  late ResultState resultData;
+  late ResultData _resultData;
+  ResultData get state => _resultData;
 
-  List<RestaurantModel> favourite = [];
+  List<RestaurantModel> _favourite = [];
+  List<RestaurantModel> get favourite => _favourite;
 
   void _getRestaurant() async {
-    favourite = await DatabaseHelper().getFavorite();
+    _favourite = await DatabaseHelper().getFavorite();
     notifyListeners();
-    if (favourite.isNotEmpty) {
-      resultData = ResultState.hasData;
+    if (_favourite.isNotEmpty) {
+      _resultData = ResultData.hasData;
       notifyListeners();
     } else {
-      resultData = ResultState.noData;
+      _resultData = ResultData.noData;
       notifyListeners();
     }
   }
@@ -35,7 +31,7 @@ class FavoriteViewModel extends ChangeNotifier {
       await databaseHelper.addFavorite(restaurant);
       _getRestaurant();
     } catch (e) {
-      resultData = ResultState.error;
+      _resultData = ResultData.error;
       notifyListeners();
     }
   }
@@ -50,7 +46,7 @@ class FavoriteViewModel extends ChangeNotifier {
       await databaseHelper.deleteFavorite(id);
       _getRestaurant();
     } catch (e) {
-      resultData = ResultState.error;
+      _resultData = ResultData.error;
       notifyListeners();
     }
   }
