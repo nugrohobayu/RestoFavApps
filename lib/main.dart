@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/viewmodel/favorite_view_model.dart';
+import 'package:resto_fav_apps/viewmodel/restaurant_view_model.dart';
 import 'package:resto_fav_apps/viewmodel/scheduling_view_model.dart';
 import 'package:resto_fav_apps/views/bottom_navigation.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/splash_screen.dart';
 
+import 'data/helpers/database_helper.dart';
 import 'data/helpers/notification_helper.dart';
 import 'data/services/background_service.dart';
+import 'data/services/base_api.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -36,6 +40,13 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => SchedulingViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) =>
+                FavoriteViewModel(databaseHelper: DatabaseHelper()),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => RestaurantViewModel(baseApi: BaseApi()),
           ),
         ],
         builder: (context, child) {
