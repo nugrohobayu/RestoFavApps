@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:resto_fav_apps/views/list_favorite_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/setting_view.dart';
@@ -13,38 +12,7 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-  final _controller = PersistentTabController(initialIndex: 0);
-
-  List<Widget> _buildScreens() {
-    return [
-      const ListRestaurantView(),
-      const ListFavoriteView(),
-      const SettingView(),
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> _navBarsItems(ColorScheme color) {
-    return [
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
-        title: ("Home"),
-        activeColorPrimary: color.primary,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.favorite),
-        title: ("Favorite"),
-        activeColorPrimary: color.primary,
-        inactiveColorPrimary: Colors.grey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.settings),
-        title: ("Settings"),
-        activeColorPrimary: color.primary,
-        inactiveColorPrimary: Colors.grey,
-      ),
-    ];
-  }
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +20,34 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     return Scaffold(
       appBar: null,
-      body: PersistentTabView(
-        context,
-        controller: _controller,
-        screens: _buildScreens(),
-        items: _navBarsItems(color),
-        resizeToAvoidBottomInset: true,
+      body: <Widget>[
+        const ListRestaurantView(),
+        const ListFavoriteView(),
+        const SettingView(),
+      ][selectedIndex],
+      bottomNavigationBar: NavigationBar(
+        indicatorColor: color.secondary,
+        selectedIndex: selectedIndex,
+        onDestinationSelected: (int index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.favorite),
+            label: 'Favorite',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }
