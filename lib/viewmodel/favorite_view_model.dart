@@ -8,7 +8,7 @@ class FavoriteViewModel extends ChangeNotifier {
   FavoriteViewModel({required this.databaseHelper}) {
     _getRestaurant();
   }
-  late ResultData _resultData;
+  late ResultData _resultData = ResultData.hasData;
   ResultData get state => _resultData;
 
   List<RestaurantModel> _favourite = [];
@@ -16,14 +16,12 @@ class FavoriteViewModel extends ChangeNotifier {
 
   void _getRestaurant() async {
     _favourite = await DatabaseHelper().getFavorite();
-    notifyListeners();
     if (_favourite.isNotEmpty) {
       _resultData = ResultData.hasData;
-      notifyListeners();
     } else {
       _resultData = ResultData.noData;
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   void addFavorite(RestaurantModel restaurant) async {

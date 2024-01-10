@@ -111,9 +111,8 @@ class ListRestaurantView extends StatelessWidget {
                             child: IconButton(
                               onPressed: () {
                                 provider.addFavorite(listRestaurant);
-                                print('object');
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.favorite_border_outlined,
                                 color: Colors.red,
                               ),
