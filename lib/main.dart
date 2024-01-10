@@ -2,7 +2,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:resto_fav_apps/data/models/detail_restaurant_model.dart';
+import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/scheduling_view_model.dart';
 import 'package:resto_fav_apps/views/bottom_navigation.dart';
 import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
                   const ListRestaurantView(),
               DetailRestaurantView.routeName: (context) => DetailRestaurantView(
                   restaurantModel: ModalRoute.of(context)?.settings.arguments
-                      as DetailRestaurantModel),
+                      as RestaurantModel),
               BottomNavigation.routeName: (context) => const BottomNavigation(),
             },
           );

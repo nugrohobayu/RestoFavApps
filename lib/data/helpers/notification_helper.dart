@@ -77,18 +77,18 @@ class NotificationHelper {
 
     var titleNotification =
         "<b>Here We Go! this restaurant are available on your apps</b>";
-    var data = result.restaurants;
-    var index = _random.nextInt(data.length);
-    var titleRestaurant = result.restaurants[index].name;
+    // var data = result.restaurants;
+    // var index = _random.nextInt(data.length);
+    // var titleRestaurant = result.restaurants[index].name;
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
-      titleRestaurant,
+      "titleRestaurant",
       platformChannelSpecifics,
-      payload: json.encode(
-        data[index].toJson(),
-      ),
+      // payload: json.encode(
+      //   data[index].toJson(),
+      // ),
     );
   }
 
