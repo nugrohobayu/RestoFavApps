@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../viewmodel/scheduling_view_model.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -17,15 +20,18 @@ class SettingView extends StatelessWidget {
             const Text(
               'Restaurant Notification ',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.deepOrangeAccent,
+                fontWeight: FontWeight.normal,
                 fontSize: 16,
               ),
             ),
-            Switch(
-              value: false,
-              onChanged: (value) {},
-            )
+            Consumer<SchedulingViewModel>(builder: (context, provider, child) {
+              return Switch(
+                value: provider.isScheduled,
+                onChanged: (value) {
+                  provider.scheduledRestaurant(value);
+                },
+              );
+            })
           ],
         ),
       ),
