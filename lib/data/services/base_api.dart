@@ -1,13 +1,15 @@
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Client;
 import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 
 class BaseApi {
   static const String _baseUrl = 'https://restaurant-api.dicoding.dev/';
+  final Client client;
+  BaseApi(this.client);
 
   Future<ResponseRestaurantModel> getList() async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.parse("${_baseUrl}list"),
     );
 
@@ -23,7 +25,7 @@ class BaseApi {
   }
 
   Future<ResponseRestaurantModel> getDetailsList(String id) async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.parse("${_baseUrl}detail/$id"),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -34,7 +36,7 @@ class BaseApi {
   }
 
   Future<ResponseRestaurantModel> fetchSearch(String searchQuery) async {
-    final response = await http.get(
+    final response = await client.get(
       Uri.parse("${_baseUrl}search?q=$searchQuery"),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {

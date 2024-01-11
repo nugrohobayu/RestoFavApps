@@ -17,7 +17,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'data/helpers/database_helper.dart';
 import 'data/helpers/notification_helper.dart';
 import 'data/services/background_service.dart';
-import 'data/services/base_api.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -49,7 +48,7 @@ class MyApp extends StatelessWidget {
                 FavoriteViewModel(databaseHelper: DatabaseHelper()),
           ),
           ChangeNotifierProvider(
-            create: (context) => RestaurantViewModel(baseApi: BaseApi()),
+            create: (context) => RestaurantViewModel(),
           ),
           ChangeNotifierProvider(
             create: (context) => SharedPreferenceViewModel(
