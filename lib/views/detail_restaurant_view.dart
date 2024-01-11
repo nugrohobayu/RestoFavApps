@@ -227,13 +227,24 @@ class DetailRestaurantView extends StatelessWidget {
             }).toList(),
           ),
           _card(color, 'Description'),
+          Text(
+              maxLines: provider.isExpanded ? null : 2,
+              overflow: provider.isExpanded ? null : TextOverflow.ellipsis,
+              '${provider.detailRestaurant?.description}'),
           SizedBox(
-            height: mediaQuery.size.height * 0.15,
-            child: Text(
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-                '${provider.detailRestaurant?.description}'),
+            height: mediaQuery.size.height * 0.01,
           ),
+          GestureDetector(
+              onTap: () {
+                provider.readMore();
+              },
+              child: Text(
+                provider.isExpanded ? "Minimize" : "Read More",
+                style: TextStyle(
+                  color: color.onPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+              )),
           _card(color, 'Review Restaurant'),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

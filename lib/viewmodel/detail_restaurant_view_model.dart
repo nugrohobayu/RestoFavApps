@@ -15,6 +15,7 @@ class DetailRestaurantViewModel extends ChangeNotifier {
     getDetailRestaurant(idRestaurant);
   }
 
+  bool isExpanded = false;
   late ResultData resultData;
   final service = RestaurantService();
   final TextEditingController ctrlName = TextEditingController();
@@ -25,6 +26,11 @@ class DetailRestaurantViewModel extends ChangeNotifier {
   List<Category> listDrinks = [];
   List<Category> listCategory = [];
   List<CustomerReview> listReview = [];
+
+  void readMore() {
+    isExpanded = !isExpanded;
+    notifyListeners();
+  }
 
   Future<void> getDetailRestaurant(String idRestaurant) async {
     try {
