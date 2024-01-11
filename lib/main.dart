@@ -78,7 +78,7 @@ class MyApp extends StatelessWidget {
               ListRestaurantView.routeName: (context) =>
                   const ListRestaurantView(),
               DetailRestaurantView.routeName: (context) => DetailRestaurantView(
-                  restaurantModel:
+                  restaurant:
                       ModalRoute.of(context)?.settings.arguments as Restaurant),
               BottomNavigation.routeName: (context) => const BottomNavigation(),
             },

@@ -8,8 +8,8 @@ import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
-  final Restaurant restaurantModel;
-  const DetailRestaurantView({Key? key, required this.restaurantModel})
+  final Restaurant restaurant;
+  const DetailRestaurantView({Key? key, required this.restaurant})
       : super(key: key);
 
   Future<void> _showDialog(
@@ -110,7 +110,7 @@ class DetailRestaurantView extends StatelessWidget {
                       ),
                       onPressed: () {
                         if (provider.formKey.currentState!.validate()) {
-                          provider.postReview(restaurantModel.id!).then((value) {
+                          provider.postReview(restaurant.id!).then((value) {
                             Navigator.pop(context);
                             Navigator.pushNamed(
                                 context, ListRestaurantView.routeName);
@@ -413,12 +413,12 @@ class DetailRestaurantView extends StatelessWidget {
     final color = Theme.of(context).colorScheme;
 
     return ChangeNotifierProvider(
-        create: (context) => DetailRestaurantViewModel(restaurantModel.id!),
+        create: (context) => DetailRestaurantViewModel(restaurant.id!),
         builder: (context, _) {
           return Consumer<DetailRestaurantViewModel>(
               builder: (context, provider, _) {
             String urlPicture =
-                'https://restaurant-api.dicoding.dev/images/medium/${restaurantModel.pictureId}';
+                'https://restaurant-api.dicoding.dev/images/medium/${restaurant.pictureId}';
             switch (provider.resultData) {
               case ResultData.hasData:
                 return Scaffold(
@@ -432,26 +432,15 @@ class DetailRestaurantView extends StatelessWidget {
                         expandedHeight: mediaQuery.size.height * 0.3,
                         flexibleSpace: Hero(
                           tag: urlPicture,
-                          child: Stack(
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  image: DecorationImage(
-                                    image: NetworkImage(urlPicture),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
+                          transitionOnUserGestures: true,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              image: DecorationImage(
+                                image: NetworkImage(urlPicture),
+                                fit: BoxFit.cover,
                               ),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 8),
-                                  child: const Icon(
-                                    Icons.favorite_border_outlined,
-                                    color: Colors.red,
-                                  )),
-                            ],
+                            ),
                           ),
                         ),
                       ),

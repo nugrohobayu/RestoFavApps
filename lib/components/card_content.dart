@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/favorite_view_model.dart';
+import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 
 class CardContent extends StatelessWidget {
   final Restaurant restaurant;
@@ -41,7 +42,8 @@ class CardContent extends StatelessWidget {
                       horizontal: 16.0, vertical: 8.0),
                   leading: restaurant.pictureId != null
                       ? Hero(
-                          tag: restaurant.pictureId.toString(),
+                          tag: '$imageUrl${restaurant.pictureId}',
+                          transitionOnUserGestures: true,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
@@ -98,7 +100,8 @@ class CardContent extends StatelessWidget {
                     ],
                   ),
                   onTap: () {
-                    // Navigation.intentWithData(DetailsPage.routeName, restaurant);
+                    Navigator.pushNamed(context, DetailRestaurantView.routeName,
+                        arguments: restaurant);
                   },
                 ),
               ),
