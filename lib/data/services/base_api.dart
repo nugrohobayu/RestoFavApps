@@ -14,7 +14,6 @@ class BaseApi {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       Map<String, dynamic> jsonData = json.decode(response.body);
-      debugPrint('$jsonData resss');
       ResponseRestaurantModel responseRestaurantModel =
           ResponseRestaurantModel.fromJson(jsonData);
       return responseRestaurantModel;
