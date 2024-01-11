@@ -5,8 +5,7 @@ import 'package:resto_fav_apps/viewmodel/favorite_view_model.dart';
 
 class CardContent extends StatelessWidget {
   final Restaurant restaurant;
-  const CardContent({Key? key, required this.restaurant})
-      : super(key: key);
+  const CardContent({Key? key, required this.restaurant}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +20,17 @@ class CardContent extends StatelessWidget {
             return Container(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                elevation: 0,
+                elevation: 1,
                 shape: const RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.grey, width: 0.2),
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                  borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 ),
                 child: ListTile(
                   trailing: isFavorite
                       ? IconButton(
                           icon: const Icon(Icons.favorite),
                           color: Colors.red,
-                          onPressed: () => provider.removeFavourite(
-                              restaurant.id.toString()),
+                          onPressed: () => provider
+                              .removeFavourite(restaurant.id.toString()),
                         )
                       : IconButton(
                           icon: const Icon(Icons.favorite_outline),
@@ -45,10 +43,13 @@ class CardContent extends StatelessWidget {
                   leading: restaurant.pictureId != null
                       ? Hero(
                           tag: restaurant.pictureId.toString(),
-                          child: Image.network(
-                            '$imageUrl${restaurant.pictureId}',
-                            fit: BoxFit.cover,
-                            width: 100,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.network(
+                              '$imageUrl${restaurant.pictureId}',
+                              fit: BoxFit.cover,
+                              width: 100,
+                            ),
                           ),
                         )
                       : const Center(
@@ -63,15 +64,16 @@ class CardContent extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           const Icon(
                             Icons.location_on_outlined,
-                            color: Colors.grey,
+                            color: Colors.red,
                             size: 15,
                           ),
                           Text(
                             restaurant.city ?? "",
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ],
                       ),
@@ -88,7 +90,9 @@ class CardContent extends StatelessWidget {
                           ),
                           Text(
                             restaurant.rating.toString(),
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.amberAccent),
                           ),
                         ],
                       ),
