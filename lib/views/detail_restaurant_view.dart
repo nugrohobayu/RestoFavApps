@@ -4,6 +4,7 @@ import 'package:resto_fav_apps/assets/assets.dart';
 import 'package:resto_fav_apps/components/warning_message.dart';
 import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
+import 'package:resto_fav_apps/viewmodel/favorite_view_model.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class DetailRestaurantView extends StatelessWidget {
@@ -430,18 +431,53 @@ class DetailRestaurantView extends StatelessWidget {
                         automaticallyImplyLeading: false,
                         backgroundColor: Colors.white,
                         expandedHeight: mediaQuery.size.height * 0.3,
-                        flexibleSpace: Hero(
-                          tag: urlPicture,
-                          transitionOnUserGestures: true,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              image: DecorationImage(
-                                image: NetworkImage(urlPicture),
-                                fit: BoxFit.cover,
+                        flexibleSpace: Stack(
+                          children: [
+                            Hero(
+                              tag: urlPicture,
+                              transitionOnUserGestures: true,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  image: DecorationImage(
+                                    image: NetworkImage(urlPicture),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                            Consumer<FavoriteViewModel>(
+                                builder: (context, favorite, _) {
+                              return FutureBuilder<bool>(
+                                  future: favorite
+                                      .isFavourite(restaurant.id.toString()),
+                                  builder: (context, snapshot) {
+                                    var isFavorite = snapshot.data ?? false;
+                                    return Container(
+                                      alignment: Alignment.bottomLeft,
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: isFavorite
+                                          ? IconButton(
+                                              onPressed: () =>
+                                                  favorite.removeFavourite(
+                                                      restaurant.id.toString()),
+                                              icon: const Icon(
+                                                Icons.favorite,
+                                                color: Colors.red,
+                                              ),
+                                            )
+                                          : IconButton(
+                                              onPressed: () => favorite
+                                                  .addFavorite(restaurant),
+                                              icon: const Icon(
+                                                Icons.favorite_border_outlined,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                    );
+                                  });
+                            })
+                          ],
                         ),
                       ),
                       SliverList(
