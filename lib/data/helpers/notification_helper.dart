@@ -4,7 +4,9 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/utils/navigator.dart';
 import 'package:rxdart/rxdart.dart';
 
 final selectNotificationSubject = BehaviorSubject<String>();
@@ -48,7 +50,7 @@ class NotificationHelper {
 
   Future<void> showNotification(
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-    RestaurantModel result,
+    ResponseRestaurantModel result,
   ) async {
     var vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
@@ -77,18 +79,18 @@ class NotificationHelper {
 
     var titleNotification =
         "<b>Here We Go! this restaurant are available on your apps</b>";
-    // var data = result.restaurants;
-    // var index = _random.nextInt(data.length);
-    // var titleRestaurant = result.restaurants[index].name;
+    var data = result.restaurants;
+    var index = _random.nextInt(data.length);
+    var titleRestaurant = result.restaurants[index].name;
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
-      "titleRestaurant",
+      titleRestaurant,
       platformChannelSpecifics,
-      // payload: json.encode(
-      //   data[index].toJson(),
-      // ),
+      payload: json.encode(
+        data[index].toJson(),
+      ),
     );
   }
 
@@ -96,7 +98,7 @@ class NotificationHelper {
     selectNotificationSubject.stream.listen(
       (String payload) async {
         var data = RestaurantModel.fromJson(json.decode(payload));
-        // Navigation.intentWithData(route, data);
+        Navigation.intentWithData(route, data);
       },
     );
   }

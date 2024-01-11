@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:resto_fav_apps/data/helpers/notification_helper.dart';
+import 'package:resto_fav_apps/views/detail_restaurant_view.dart';
 import 'package:resto_fav_apps/views/list_favorite_view.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 import 'package:resto_fav_apps/views/setting_view.dart';
@@ -13,6 +15,21 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
   int selectedIndex = 0;
+  NotificationHelper notificationHelper = NotificationHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    notificationHelper.configureSelectNotificationSubject(
+      DetailRestaurantView.routeName,
+    );
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
