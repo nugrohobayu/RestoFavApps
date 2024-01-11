@@ -7,23 +7,26 @@ String responseRestaurantModelToJson(ResponseRestaurantModel data) =>
     json.encode(data.toJson());
 
 class ResponseRestaurantModel {
-  bool error;
-  String message;
-  int count;
-  List<Restaurant> restaurants;
+  final bool error;
+  final String message;
+  final int count;
+  final int founded;
+  final List<Restaurant> restaurants;
 
   ResponseRestaurantModel({
     required this.error,
     required this.message,
     required this.count,
+    required this.founded,
     required this.restaurants,
   });
 
   factory ResponseRestaurantModel.fromJson(Map<String, dynamic> json) =>
       ResponseRestaurantModel(
         error: json["error"],
-        message: json["message"],
-        count: json["count"],
+        message: json["message"] ?? "",
+        count: json["count"] ?? 0,
+        founded: json['founded'] ?? 0,
         restaurants: List<Restaurant>.from(
             json["restaurants"].map((x) => Restaurant.fromJson(x))),
       );
