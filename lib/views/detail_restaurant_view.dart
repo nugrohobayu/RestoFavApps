@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:resto_fav_apps/assets/assets.dart';
 import 'package:resto_fav_apps/components/warning_message.dart';
-import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 import 'package:resto_fav_apps/viewmodel/detail_restaurant_view_model.dart';
 import 'package:resto_fav_apps/views/list_restaurant_view.dart';
 
 class DetailRestaurantView extends StatelessWidget {
   static const routeName = '/DetailRestaurantView';
-  final RestaurantModel restaurantModel;
+  final Restaurant restaurantModel;
   const DetailRestaurantView({Key? key, required this.restaurantModel})
       : super(key: key);
 
@@ -110,7 +110,7 @@ class DetailRestaurantView extends StatelessWidget {
                       ),
                       onPressed: () {
                         if (provider.formKey.currentState!.validate()) {
-                          provider.postReview(restaurantModel.id).then((value) {
+                          provider.postReview(restaurantModel.id!).then((value) {
                             Navigator.pop(context);
                             Navigator.pushNamed(
                                 context, ListRestaurantView.routeName);
@@ -413,7 +413,7 @@ class DetailRestaurantView extends StatelessWidget {
     final color = Theme.of(context).colorScheme;
 
     return ChangeNotifierProvider(
-        create: (context) => DetailRestaurantViewModel(restaurantModel.id),
+        create: (context) => DetailRestaurantViewModel(restaurantModel.id!),
         builder: (context, _) {
           return Consumer<DetailRestaurantViewModel>(
               builder: (context, provider, _) {
@@ -447,7 +447,7 @@ class DetailRestaurantView extends StatelessWidget {
                                   alignment: Alignment.bottomLeft,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.favorite_border_outlined,
                                     color: Colors.red,
                                   )),

@@ -1,4 +1,4 @@
-import 'package:resto_fav_apps/data/models/restaurant_model.dart';
+import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
@@ -17,8 +17,8 @@ class DatabaseHelper {
              id TEXT PRIMARY KEY,
              name TEXT,
              description TEXT,
-             pictureId TEXT,
              city TEXT,
+             pictureId TEXT,
              rating REAL)''');
     }, version: 1);
     return db;
@@ -34,16 +34,16 @@ class DatabaseHelper {
     return _database;
   }
 
-  Future<void> addFavorite(RestaurantModel restaurant) async {
+  Future<void> addFavorite(Restaurant restaurant) async {
     final db = await database;
     await db?.insert(_tableFavorite, restaurant.toJson());
   }
 
-  Future<List<RestaurantModel>> getFavorite() async {
+  Future<List<Restaurant>> getFavorite() async {
     final db = await database;
     List<Map<String, dynamic>> results = await db!.query(_tableFavorite);
 
-    return results.map((res) => RestaurantModel.fromJson(res)).toList();
+    return results.map((res) => Restaurant.fromJson(res)).toList();
   }
 
   Future<Map> getFavoriteById(String id) async {

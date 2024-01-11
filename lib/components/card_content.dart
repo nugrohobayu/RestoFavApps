@@ -35,8 +35,7 @@ class CardContent extends StatelessWidget {
                       : IconButton(
                           icon: const Icon(Icons.favorite_outline),
                           color: Colors.red,
-                          onPressed: () {},
-                          // onPressed: () => provider.addFavorite(restaurantDetailModel),
+                          onPressed: () => provider.addFavorite(restaurant),
                         ),
                   contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16.0, vertical: 8.0),
