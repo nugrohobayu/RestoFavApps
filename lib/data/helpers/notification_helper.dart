@@ -5,7 +5,6 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:resto_fav_apps/data/models/response_restaurant_model.dart';
-import 'package:resto_fav_apps/data/models/restaurant_model.dart';
 import 'package:resto_fav_apps/utils/navigator.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -26,7 +25,7 @@ class NotificationHelper {
 
   Future<void> initNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    var initSettingsAndroid = const AndroidInitializationSettings('app_icon');
+    var initSettingsAndroid = const AndroidInitializationSettings('logo');
     var initSettingsIOS = const DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -97,7 +96,7 @@ class NotificationHelper {
   void configureSelectNotificationSubject(String route) {
     selectNotificationSubject.stream.listen(
       (String payload) async {
-        var data = RestaurantModel.fromJson(json.decode(payload));
+        var data = ResponseRestaurantModel.fromJson(json.decode(payload));
         Navigation.intentWithData(route, data);
       },
     );

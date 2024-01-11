@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart';
-import 'package:resto_fav_apps/data/services/restaurant_service.dart';
+import 'package:resto_fav_apps/data/services/base_api.dart';
 
 import '../../main.dart';
 import '../helpers/notification_helper.dart';
@@ -32,11 +32,9 @@ class BackgroundService {
     debugPrint('Alarm fired!');
 
     final NotificationHelper notificationHelper = NotificationHelper();
-    // var result = await Api(Client()).fetchList();
-    var result = await RestaurantService().getList();
-    // await notificationHelper.showNotification(
-    //     flutterLocalNotificationsPlugin, result);
-
+    var result = await BaseApi(Client()).getList();
+    await notificationHelper.showNotification(
+        flutterLocalNotificationsPlugin, result);
     _uiSendPort ??= IsolateNameServer.lookupPortByName(_isolateName);
     _uiSendPort?.send(null);
   }
