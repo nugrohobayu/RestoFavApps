@@ -50,6 +50,11 @@ class CardContent extends StatelessWidget {
                               '$imageUrl${restaurant.pictureId}',
                               fit: BoxFit.cover,
                               width: 100,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.image_not_supported_outlined,
+                                size: 40,
+                              ),
                             ),
                           ),
                         )
